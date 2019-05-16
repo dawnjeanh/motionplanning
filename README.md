@@ -17,3 +17,9 @@ Motion planning algorithm implementation
 
 ### rrt_connect
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect.gif)
+
+### rrt*
+![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star.gif)
+
+### rrt*-smart
+![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star_smart.gif)
