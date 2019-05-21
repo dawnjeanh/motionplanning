@@ -1,0 +1,4 @@
+<launch>
+	<node name="cpp_rviz" pkg="cpp_rviz" type="a_star" launch-prefix="xterm -e"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cpp_rviz)/map.rviz"/>
+</launch>
