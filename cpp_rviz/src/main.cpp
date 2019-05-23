@@ -1,6 +1,7 @@
 #include "map_info.h"
 #include "kdtree.h"
 #include "a_star.h"
+#include "theta_star.h"
 
 int main(int argc, char** argv)
 {
@@ -31,10 +32,26 @@ int main(int argc, char** argv)
     std::cout << "press y to star:";
     std::cin >> c;
 
-    AStar plan(m, true);
-    std::vector<KDPoint> path = plan.run();
+    std::string type;
+    ros::param::get("/type", type);
+    std::vector<KDPoint> path;
+    if (type.compare("a_star") == 0)
+    {
+        AStar plan(m, true);
+        path = plan.run();
+    }
+    else if (type.compare("theta_star") == 0)
+    {
+        ThetaStar plan(m, true);
+        path = plan.run();
+    }
+    else
+    {
+        std::cout << type << " is not exist" << std::endl;
+    }
 
-    m.set_path(path);
+    if (!path.empty())
+        m.set_path(path);
 
     std::cout << "end";
     std::cin >> c;

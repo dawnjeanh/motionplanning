@@ -43,6 +43,7 @@ public:
     void set_openlist(std::vector<KDPoint> &points);
     void set_closelist(std::vector<KDPoint> &points);
     bool Collision(KDPoint &point);
+    bool Collision(KDPoint &p1, KDPoint &p2);
     void ShowMap(void);
 };
 

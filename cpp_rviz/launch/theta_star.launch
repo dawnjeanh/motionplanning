@@ -1,5 +1,5 @@
 <launch>
-	<param name="type" value="a_star" />
+	<param name="type" value="theta_star" />
 	<node name="cpp_rviz" pkg="cpp_rviz" type="motionplanning" launch-prefix="xterm -e"/>
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cpp_rviz)/map.rviz"/>
 </launch>

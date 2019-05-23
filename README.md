@@ -16,6 +16,7 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 
 ## theta* algorithm
 ![theta_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/theta_star.gif)
+![theta_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/theta_star_rviz.gif)
 
 ## Probabilistic Roadmaps algorithm
 ![prm](https://github.com/dawnjeanh/image_resource/raw/master/gif/prm.gif)

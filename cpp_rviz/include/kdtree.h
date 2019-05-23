@@ -9,9 +9,15 @@
 #include <stack>
 #include <cmath>
 
-#define KDPoint std::vector<double>
+typedef std::vector<double> KDPoint;
+#define E (0.00001)
 void PrintKDPoint(KDPoint &p);
-double distance(KDPoint &p1, KDPoint &p2);
+double Distance(KDPoint &p1, KDPoint &p2);
+bool Equal(double a, double b);
+bool Equal(KDPoint &p1, KDPoint &p2);
+bool operator==(KDPoint &p1, KDPoint &p2);
+bool operator!=(KDPoint &p1, KDPoint &p2);
+KDPoint MiddlePoint(KDPoint &p1, KDPoint &p2);
 
 struct KDNode
 {

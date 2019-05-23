@@ -215,6 +215,35 @@ bool MapInfo::Collision(KDPoint &point)
     }
 }
 
+bool MapInfo::Collision(KDPoint &p1, KDPoint &p2)
+{
+    if (Collision(p1) || Collision(p2))
+        return true;
+    std::vector<KDPoint> ps;
+    ps.push_back(p1);
+    ps.push_back(p2);
+    double d = Distance(p1, p2);
+    while (ps.size() < d * 1.3)
+    {
+        int i = 0;
+        int j = 1;
+        while (j < ps.size())
+        {
+            ps.insert(ps.begin() + j, MiddlePoint(ps[i], ps[j]));
+            i += 2;
+            j += 2;
+        }
+    }
+    for (auto p : ps)
+    {
+        std::vector<std::pair<KDPoint, double>> result;
+        _okdtree.Query(p, 1, result);
+        if (result.begin()->second < 1.0)
+            return true;
+    }
+    return false;
+}
+
 void MapInfo::ShowMap(void)
 {
     while (_marker_pub.getNumSubscribers() < 1)

@@ -1,6 +1,6 @@
-#include "a_star.h"
+#include "theta_star.h"
 
-AStar::AStar(MapInfo &map_info, bool display) : MotionPlanning(map_info, display)
+ThetaStar::ThetaStar(MapInfo &map_info, bool display) : MotionPlanning(map_info, display)
 {
     AStarPoint p;
     p.point.assign(MotionPlanning::_pt_start.begin(), MotionPlanning::_pt_start.end());
@@ -10,7 +10,7 @@ AStar::AStar(MapInfo &map_info, bool display) : MotionPlanning(map_info, display
     _openlist.push_back(p);
 }
 
-std::vector<KDPoint> AStar::_NeighborPoints(KDPoint &p)
+std::vector<KDPoint> ThetaStar::_NeighborPoints(KDPoint &p)
 {
     double neighbor[8][2] = {{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}};
     std::vector<KDPoint> points;
@@ -25,7 +25,7 @@ std::vector<KDPoint> AStar::_NeighborPoints(KDPoint &p)
     return points;
 }
 
-std::vector<KDPoint> AStar::_ReconstrucPath(void)
+std::vector<KDPoint> ThetaStar::_ReconstrucPath(void)
 {
     std::vector<KDPoint> path;
     KDPoint p = MotionPlanning::_pt_end;
@@ -45,7 +45,7 @@ std::vector<KDPoint> AStar::_ReconstrucPath(void)
     return path;
 }
 
-std::vector<KDPoint> AStar::run(void)
+std::vector<KDPoint> ThetaStar::run(void)
 {
     while (true)
     {
@@ -87,21 +87,43 @@ std::vector<KDPoint> AStar::run(void)
                 tentative_is_better = false;
             if (tentative_is_better)
             {
-                if (it_y == _openlist.end())
+                if ((x.point != MotionPlanning::_pt_start) && !MotionPlanning::_map_info.Collision(y, x.camefrom))
                 {
-                    AStarPoint y_;
-                    y_.point.assign(y.begin(), y.end());
-                    y_.g = tentative_g;
-                    y_.h = Distance(y, MotionPlanning::_pt_end);
-                    y_.f = y_.g + y_.h;
-                    y_.camefrom.assign(x.point.begin(), x.point.end());
-                    _openlist.push_back(y_);
+                    if (it_y == _openlist.end())
+                    {
+                        AStarPoint y_;
+                        y_.point.assign(y.begin(), y.end());
+                        y_.g = tentative_g;
+                        y_.h = Distance(y, MotionPlanning::_pt_end);
+                        y_.f = y_.g + y_.h;
+                        y_.camefrom.assign(x.camefrom.begin(), x.camefrom.end());
+                        _openlist.push_back(y_);
+                    }
+                    else
+                    {
+                        it_y->g = tentative_g;
+                        it_y->f = it_y->g + it_y->h;
+                        it_y->camefrom.assign(x.camefrom.begin(), x.camefrom.end());
+                    }
                 }
                 else
                 {
-                    it_y->g = tentative_g;
-                    it_y->f = it_y->g + it_y->h;
-                    it_y->camefrom.assign(x.point.begin(), x.point.end());
+                    if (it_y == _openlist.end())
+                    {
+                        AStarPoint y_;
+                        y_.point.assign(y.begin(), y.end());
+                        y_.g = tentative_g;
+                        y_.h = Distance(y, MotionPlanning::_pt_end);
+                        y_.f = y_.g + y_.h;
+                        y_.camefrom.assign(x.point.begin(), x.point.end());
+                        _openlist.push_back(y_);
+                    }
+                    else
+                    {
+                        it_y->g = tentative_g;
+                        it_y->f = it_y->g + it_y->h;
+                        it_y->camefrom.assign(x.point.begin(), x.point.end());
+                    }
                 }
                 if (MotionPlanning::_display)
                 {

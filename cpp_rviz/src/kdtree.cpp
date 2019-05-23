@@ -12,12 +12,49 @@ void PrintKDPoint(KDPoint &p)
     std::cout << ')';
 }
 
-double distance(KDPoint &p1, KDPoint &p2)
+double Distance(KDPoint &p1, KDPoint &p2)
 {
     double d = 0.0;
     for (int i = 0; i < p1.size(); ++i)
         d += (p1[i] - p2[i]) * (p1[i] - p2[i]);
     return std::sqrt(d);
+}
+
+bool Equal(double a, double b)
+{
+    return std::abs(a - b) < E;
+}
+
+bool Equal(KDPoint &p1, KDPoint &p2)
+{
+    int n = p1.size();
+    for (int i = 0; i < n; ++i)
+    {
+        if (!Equal(p1[i], p2[i]))
+            return false;
+    }
+    return true;
+}
+
+bool operator==(KDPoint &p1, KDPoint &p2)
+{
+    return Equal(p1, p2);
+}
+
+bool operator!=(KDPoint &p1, KDPoint &p2)
+{
+    return !Equal(p1, p2);
+}
+
+KDPoint MiddlePoint(KDPoint &p1, KDPoint &p2)
+{
+    int n = p1.size();
+    KDPoint m(n, 0);
+    for (int i = 0; i < n; ++i)
+    {
+        m[i] = (p1[i] + p2[i]) / 2.0;
+    }
+    return m;
 }
 
 KDTree::KDTree(std::vector<KDPoint> &points)
@@ -114,7 +151,7 @@ void KDTree::Query(KDPoint &point, int k, std::vector<std::pair<KDPoint, double>
                 }
             }
             acess.push_back(p);
-            double dis = distance(point, p->point);
+            double dis = Distance(point, p->point);
             if (result.size() < k)
                 result.push_back(std::make_pair(p->point, dis));
             else
