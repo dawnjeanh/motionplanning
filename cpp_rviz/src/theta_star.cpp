@@ -76,7 +76,7 @@ std::vector<KDPoint> ThetaStar::run(void)
             // y is in close list
             if (std::find_if(_closelist.begin(), _closelist.end(), [&](AStarPoint &p){return (p.point == y);}) != _closelist.end())
                 continue;
-            double tentative_g = x.g + Distance(y, MotionPlanning::_pt_end);
+            double tentative_g = x.g + Distance(y, x.point);
             bool tentative_is_better = true;
             auto it_y = std::find_if(_openlist.begin(), _openlist.end(), [&](AStarPoint &p){return (p.point == y);});
             if (it_y == _openlist.end())

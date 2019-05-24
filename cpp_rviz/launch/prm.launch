@@ -1,0 +1,5 @@
+<launch>
+	<param name="type" value="prm" />
+	<node name="cpp_rviz" pkg="cpp_rviz" type="motionplanning" launch-prefix="xterm -e"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cpp_rviz)/map.rviz"/>
+</launch>

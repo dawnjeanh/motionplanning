@@ -2,6 +2,7 @@
 #include "kdtree.h"
 #include "a_star.h"
 #include "theta_star.h"
+#include "prm.h"
 
 int main(int argc, char** argv)
 {
@@ -43,6 +44,11 @@ int main(int argc, char** argv)
     else if (type.compare("theta_star") == 0)
     {
         ThetaStar plan(m, true);
+        path = plan.run();
+    }
+    else if (type.compare("prm") == 0)
+    {
+        PRM plan(m, true);
         path = plan.run();
     }
     else

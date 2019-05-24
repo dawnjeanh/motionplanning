@@ -3,6 +3,8 @@
 
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
+#include <vector>
+#include <tuple>
 #include "kdtree.h"
 
 class MapInfo
@@ -17,6 +19,8 @@ private:
         _id_path,
         _id_openlist,
         _id_closelist,
+        _id_rand_points,
+        _id_roadmap,
     };
     ros::Publisher _marker_pub;
     double _width, _height;
@@ -28,6 +32,8 @@ private:
     visualization_msgs::Marker _m_openlist;
     visualization_msgs::Marker _m_closelist;
     visualization_msgs::Marker _m_path;
+    visualization_msgs::Marker _m_rand_points;
+    visualization_msgs::Marker _m_roadmap;
     int _pub_i;
 public:
     KDPoint pt_start;
@@ -36,12 +42,16 @@ public:
     ~MapInfo();
 
     void set_boundary(int w, int h);
+    double get_width(void) {return _width;}
+    double get_height(void) {return _height;}
     void set_obstacle(std::vector<KDPoint> &points);
     void set_start(KDPoint &point);
     void set_end(KDPoint &point);
     void set_path(std::vector<KDPoint> &path);
     void set_openlist(std::vector<KDPoint> &points);
     void set_closelist(std::vector<KDPoint> &points);
+    void set_rand_points(std::vector<KDPoint> &points);
+    void set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> &road_map);
     bool Collision(KDPoint &point);
     bool Collision(KDPoint &p1, KDPoint &p2);
     void ShowMap(void);

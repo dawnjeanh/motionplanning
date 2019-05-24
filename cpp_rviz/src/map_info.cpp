@@ -128,7 +128,7 @@ void MapInfo::set_path(std::vector<KDPoint> &path)
     _m_path.id = _id_path;
     _m_path.type = visualization_msgs::Marker::LINE_STRIP;
     _m_path.pose.orientation.w = 1.0;
-    _m_path.scale.x = 0.1;
+    _m_path.scale.x = 0.2;
     _m_path.color.r = 1.0;
     _m_path.color.a = 1.0;
 
@@ -199,6 +199,66 @@ void MapInfo::set_closelist(std::vector<KDPoint> &points)
     _pub_i = (_pub_i + 1) % 10;
     if (_pub_i == 0)
         ros::Duration(0.01).sleep();
+}
+
+void MapInfo::set_rand_points(std::vector<KDPoint> &points)
+{
+    _m_rand_points.header.frame_id = "/my_frame";
+    _m_rand_points.header.stamp = ros::Time::now();
+    _m_rand_points.action = visualization_msgs::Marker::ADD;
+    _m_rand_points.ns = "map";
+    _m_rand_points.id = _id_rand_points;
+    _m_rand_points.type = visualization_msgs::Marker::POINTS;
+    _m_rand_points.pose.orientation.w = 1.0;
+    _m_rand_points.scale.x = 0.3;
+    _m_rand_points.color.b = 0.8;
+    _m_rand_points.color.r = 0.8;
+    _m_rand_points.color.a = 1.0;
+
+    _m_rand_points.points.clear();
+    for (auto p : points)
+    {
+        geometry_msgs::Point p_;
+        p_.x = p[0];
+        p_.y = p[1];
+        p_.z = 0;
+        _m_rand_points.points.push_back(p_);
+    }
+    _marker_pub.publish(_m_rand_points);
+}
+
+void MapInfo::set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> &road_map)
+{
+    _m_roadmap.header.frame_id = "/my_frame";
+    _m_roadmap.header.stamp = ros::Time::now();
+    _m_roadmap.action = visualization_msgs::Marker::ADD;
+    _m_roadmap.ns = "map";
+    _m_roadmap.id = _id_roadmap;
+    _m_roadmap.type = visualization_msgs::Marker::LINE_LIST;
+    _m_roadmap.pose.orientation.w = 1.0;
+    _m_roadmap.scale.x = 0.1;
+    _m_roadmap.color.b = 0.3;
+    _m_roadmap.color.r = 0.1;
+    _m_roadmap.color.a = 1.0;
+
+    _m_roadmap.points.clear();
+    for (auto rm : road_map)
+    {
+        geometry_msgs::Point p1;
+        p1.x = rm.first[0];
+        p1.y = rm.first[1];
+        p1.z = 0;
+        for (auto p : rm.second)
+        {
+            geometry_msgs::Point p2;
+            p2.x = p[0];
+            p2.y = p[1];
+            p2.z = 0;
+            _m_roadmap.points.push_back(p1);
+            _m_roadmap.points.push_back(p2);
+        }
+    }
+    _marker_pub.publish(_m_roadmap);
 }
 
 bool MapInfo::Collision(KDPoint &point)
