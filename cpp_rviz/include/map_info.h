@@ -6,6 +6,7 @@
 #include <vector>
 #include <tuple>
 #include "kdtree.h"
+#include "rrt.h"
 
 class MapInfo
 {
@@ -21,6 +22,8 @@ private:
         _id_closelist,
         _id_rand_points,
         _id_roadmap,
+        _id_rand_point,
+        _id_rrt,
     };
     ros::Publisher _marker_pub;
     double _width, _height;
@@ -34,6 +37,8 @@ private:
     visualization_msgs::Marker _m_path;
     visualization_msgs::Marker _m_rand_points;
     visualization_msgs::Marker _m_roadmap;
+    visualization_msgs::Marker _m_rand_point;
+    visualization_msgs::Marker _m_rrt;
     int _pub_i;
 public:
     KDPoint pt_start;
@@ -52,6 +57,7 @@ public:
     void set_closelist(std::vector<KDPoint> &points);
     void set_rand_points(std::vector<KDPoint> &points);
     void set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> &road_map);
+    void set_rrt(RRT &rrt, KDPoint &rand);
     bool Collision(KDPoint &point);
     bool Collision(KDPoint &p1, KDPoint &p2);
     void ShowMap(void);

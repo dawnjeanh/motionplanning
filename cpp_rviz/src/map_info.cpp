@@ -261,6 +261,59 @@ void MapInfo::set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> 
     _marker_pub.publish(_m_roadmap);
 }
 
+void MapInfo::set_rrt(RRT &rrt, KDPoint &rand)
+{
+    _m_rand_point.header.frame_id = "/my_frame";
+    _m_rand_point.header.stamp = ros::Time::now();
+    _m_rand_point.action = visualization_msgs::Marker::ADD;
+    _m_rand_point.ns = "map";
+    _m_rand_point.id = _id_rand_point;
+    _m_rand_point.type = visualization_msgs::Marker::POINTS;
+    _m_rand_point.pose.orientation.w = 1.0;
+    _m_rand_point.scale.x = 0.5;
+    _m_rand_point.color.b = 1.0;
+    _m_rand_point.color.a = 1.0;
+
+    _m_rand_point.points.clear();
+    geometry_msgs::Point p;
+    p.x = rand[0];
+    p.y = rand[1];
+    p.z = 0;
+    _m_rand_point.points.push_back(p);
+
+    _m_rrt.header.frame_id = "/my_frame";
+    _m_rrt.header.stamp = ros::Time::now();
+    _m_rrt.action = visualization_msgs::Marker::ADD;
+    _m_rrt.ns = "map";
+    _m_rrt.id = _id_rrt;
+    _m_rrt.type = visualization_msgs::Marker::LINE_LIST;
+    _m_rrt.pose.orientation.w = 1.0;
+    _m_rrt.scale.x = 0.1;
+    _m_rrt.color.b = 0.5;
+    _m_rrt.color.g = 0.5;
+    _m_rrt.color.a = 1.0;
+
+    _m_rrt.points.clear();
+    for (auto p : rrt)
+    {
+        geometry_msgs::Point p1, p2;
+        p1.x = p[0];
+        p1.y = p[1];
+        p1.z = 0;
+        KDPoint pt = rrt.GetParent(p);
+        p2.x = pt[0];
+        p2.y = pt[1];
+        p2.z = 0;
+        _m_rrt.points.push_back(p1);
+        _m_rrt.points.push_back(p2);
+    }
+    _marker_pub.publish(_m_rand_point);
+    _marker_pub.publish(_m_rrt);
+    _pub_i = (_pub_i + 1) % 10;
+    if (_pub_i == 0)
+        ros::Duration(0.01).sleep();
+}
+
 bool MapInfo::Collision(KDPoint &point)
 {
     if ((point[0] > 0) && (point[0] < _width) && (point[1] > 0) && (point[1] < _height))

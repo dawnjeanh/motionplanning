@@ -26,6 +26,7 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 
 ### rrt
 ![rrt](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt.gif)
+![rrt](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_rviz.gif)
 
 ### rrt_connect
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect.gif)
