@@ -5,6 +5,7 @@
 #include "prm.h"
 #include "rrt.h"
 #include "rrt_plan.h"
+#include "rrt_connect_plan.h"
 
 int main(int argc, char** argv)
 {
@@ -56,6 +57,11 @@ int main(int argc, char** argv)
     else if (type.compare("rrt") == 0)
     {
         RRTPlan plan(m, true);
+        path = plan.run();
+    }
+    else if (type.compare("rrt_connect") == 0)
+    {
+        RRTConnectPlan plan(m, true);
         path = plan.run();
     }
     else

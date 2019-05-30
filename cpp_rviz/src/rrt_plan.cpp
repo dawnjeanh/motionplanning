@@ -57,7 +57,7 @@ std::vector<KDPoint> RRTPlan::run(void)
         _rrt.Add(q_new, q_near);
         if (MotionPlanning::_display)
         {
-            MotionPlanning::_map_info.set_rrt(_rrt, q_rand);
+            MotionPlanning::_map_info.set_rrt(_rrt, 0, q_rand);
         }
         if (Distance(q_new, MotionPlanning::_pt_end) < 1.0)
         {

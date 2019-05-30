@@ -261,7 +261,7 @@ void MapInfo::set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> 
     _marker_pub.publish(_m_roadmap);
 }
 
-void MapInfo::set_rrt(RRT &rrt, KDPoint &rand)
+void MapInfo::set_rrt(RRT &rrt, int n, KDPoint &rand)
 {
     _m_rand_point.header.frame_id = "/my_frame";
     _m_rand_point.header.stamp = ros::Time::now();
@@ -285,7 +285,7 @@ void MapInfo::set_rrt(RRT &rrt, KDPoint &rand)
     _m_rrt.header.stamp = ros::Time::now();
     _m_rrt.action = visualization_msgs::Marker::ADD;
     _m_rrt.ns = "map";
-    _m_rrt.id = _id_rrt;
+    _m_rrt.id = _id_rrt + n;
     _m_rrt.type = visualization_msgs::Marker::LINE_LIST;
     _m_rrt.pose.orientation.w = 1.0;
     _m_rrt.scale.x = 0.1;

@@ -57,7 +57,7 @@ public:
     void set_closelist(std::vector<KDPoint> &points);
     void set_rand_points(std::vector<KDPoint> &points);
     void set_roadmap(std::vector<std::pair<KDPoint, std::vector<KDPoint>>> &road_map);
-    void set_rrt(RRT &rrt, KDPoint &rand);
+    void set_rrt(RRT &rrt, int n, KDPoint &rand);
     bool Collision(KDPoint &point);
     bool Collision(KDPoint &p1, KDPoint &p2);
     void ShowMap(void);

@@ -30,6 +30,7 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 
 ### rrt_connect
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect.gif)
+![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect_rviz.gif)
 
 ### rrt*
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star.gif)
