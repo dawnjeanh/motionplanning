@@ -138,7 +138,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(motionplanning src/main.cpp
   src/theta_star.cpp src/a_star.cpp src/prm.cpp
-  src/rrt.cpp src/rrt_plan.cpp src/rrt_connect_plan.cpp
+  src/rrt.cpp src/rrt_plan.cpp src/rrt_connect_plan.cpp src/rrt_star_plan.cpp
   src/map_info.cpp src/kdtree.cpp
 )
 

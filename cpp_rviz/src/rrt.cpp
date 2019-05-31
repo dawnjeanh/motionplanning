@@ -2,8 +2,8 @@
 
 void RRT::set_root(KDPoint &p)
 {
-    KDPoint r(p);
-    _rrt.push_back(std::make_pair(r, 0));
+    _root.assign(p.begin(), p.end());
+    _rrt.push_back(std::make_pair(_root, 0));
 }
 
 KDPoint RRT::SearchNearestVertex(KDPoint &q_rand)
@@ -52,4 +52,67 @@ KDPoint RRT::GetParent(KDPoint &p)
         }
     );
     return _rrt[it->second].first;
+}
+
+double RRT::Cost(KDPoint &point)
+{
+    double c = 0.0;
+    KDPoint p = point;
+    while (p != _root)
+    {
+        KDPoint f = GetParent(p);
+        c += Distance(p, f);
+        p = f;
+    }
+    return c;
+}
+
+void RRT::Rewire(KDPoint &p, double r, std::function<bool (KDPoint &p1, KDPoint &p2)> Collision)
+{
+    std::vector<KDPoint> nears;
+    auto it_p = std::find_if(
+        _rrt.begin(), _rrt.end(),
+        [&](std::pair<KDPoint, int> &pair)
+        {
+            return (pair.first == p);
+        }
+    );
+    std::for_each(
+        _rrt.begin(), _rrt.end(),
+        [&](std::pair<KDPoint, int> &pair)
+        {
+            if ((pair.first != p) && (Distance(pair.first, p) < r) && (!Collision(pair.first, p)))
+            {
+                nears.push_back(pair.first);
+            }
+        }
+    );
+    for (auto pt : nears)
+    {
+        if (Cost(pt) + Distance(pt, p) < Cost(p))
+        {
+            int idx = std::find_if(
+                _rrt.begin(), _rrt.end(),
+                [&](std::pair<KDPoint, int> &pair)
+                {
+                    return (pair.first == pt);
+                }
+            ) - _rrt.begin();
+            it_p->second = idx;
+        }
+    }
+    for (auto pt : nears)
+    {
+        if (Cost(p) + Distance(pt, p) < Cost(pt))
+        {
+            auto it_pt = std::find_if(
+                _rrt.begin(), _rrt.end(),
+                [&](std::pair<KDPoint, int> &pair)
+                {
+                    return (pair.first == pt);
+                }
+            );
+            it_pt->second = int(it_p - _rrt.begin());
+        }
+    }
 }

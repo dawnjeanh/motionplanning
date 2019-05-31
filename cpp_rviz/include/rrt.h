@@ -5,11 +5,14 @@
 #include <tuple>
 #include <utility>
 #include <cmath>
+#include <functional>
+#include <algorithm>
 #include "kdtree.h"
 
 class RRT
 {
 private:
+    KDPoint _root;
     std::vector<std::pair<KDPoint, int>> _rrt;
 public:
     class iterator
@@ -39,6 +42,8 @@ public:
     KDPoint CalcNewPoint(KDPoint &q_near, KDPoint &q_rand);
     void Add(KDPoint &q_new, KDPoint &q_near);
     KDPoint GetParent(KDPoint &p);
+    double Cost(KDPoint &p);
+    void Rewire(KDPoint &p, double r, std::function<bool (KDPoint &p1, KDPoint &p2)> Collision);
     inline int size(void)
     {
         return _rrt.size();
