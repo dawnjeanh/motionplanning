@@ -38,3 +38,10 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 
 ### rrt*-smart
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star_smart.gif)
+
+## Dubins path algorithm
+[Dubins](https://github.com/dawnjeanh/motionplanning/tree/master/doc/Dubins_path.md) algorithm have 6 types path as below.
+### shortest dubins path with different end point
+![](https://github.com/dawnjeanh/image_resource/raw/master/png/Dubins_1.png)
+### 6 types of dubins path with same end point
+![](https://github.com/dawnjeanh/image_resource/raw/master/png/Dubins_2.png)
