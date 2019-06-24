@@ -45,3 +45,7 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 ![](https://github.com/dawnjeanh/image_resource/raw/master/png/Dubins_1.png)
 ### 6 types of dubins path with same end point
 ![](https://github.com/dawnjeanh/image_resource/raw/master/png/Dubins_2.png)
+### RRT-Dubins
+![rrt_dubins](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_dubins.gif)
+### RRT*-Dubins
+![rrt_star_dubins](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star_dubins.gif)

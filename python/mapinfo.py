@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import matplotlib.pyplot as plt
+import math
 import copy
 import time
+from scipy.spatial import cKDTree
 
 class MapInfo(object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self._okdtree = None
         self._border_x = [0, width, width, 0, 0]
         self._border_y = [0, 0, height, height, 0]
         self._start = (-1, -1)
@@ -27,8 +30,14 @@ class MapInfo(object):
     @start.setter
     def start(self, s):
         self._start = s
-        plt.plot(self.start[0], self.start[1], 'o', color='green')
+        self.draw_point(self._start, 'o', color='green')
         self.update()
+
+    def draw_point(self, p, shape, color):
+        plt.plot(p[0], p[1], shape, color=color)
+        if len(p) == 3:
+            arrow_length = self.width / 20.0
+            plt.arrow(p[0], p[1], arrow_length * math.cos(p[2]), arrow_length * math.sin(p[2]), head_width=arrow_length/5)
 
     @property
     def end(self):
@@ -37,7 +46,7 @@ class MapInfo(object):
     @end.setter
     def end(self, e):
         self._end = e
-        plt.plot(self.end[0], self.end[1], 'o', color='red')
+        self.draw_point(self._end, 'o', color='red')
         self.update()
 
     @property
@@ -47,9 +56,19 @@ class MapInfo(object):
     @obstacle.setter
     def obstacle(self, o):
         self._obstacle = copy.deepcopy(o)
+        self._okdtree = cKDTree(o)
         t = zip(*self.obstacle)
         plt.plot(t[0], t[1], 's', color='black')
         self.update()
+
+    def is_collision(self, **kwargs):
+        if 'path' in kwargs:
+            px, py = kwargs['path']
+            for p in zip(px, py):
+                d, _ = self._okdtree.query(p)
+                if d <= 1.0 or p[0] < 0 or p[0] > self.width or p[1] < 0 or p[1] > self.height:
+                    return True
+            return False
 
     @property
     def roadmap(self):
@@ -68,7 +87,7 @@ class MapInfo(object):
         self.update()
 
     def set_rand(self, r):
-        plt.plot(r[0], r[1], 'd', color='blue')
+        self.draw_point(r, 'd', color='blue')
         self.update()
 
     def set_rrt(self, rrt):
@@ -81,6 +100,21 @@ class MapInfo(object):
         for r in rrt.items():
             t = zip(*r)
             plt.plot(t[0], t[1], color='lightblue')
+        if self._update_i % 20 == 1:
+            self.update()
+
+    def set_rrt_dubins(self, rrt):
+        plt.clf()
+        plt.plot(self._border_x, self._border_y, 'black')
+        self.draw_point(self._start, 'o', color='green')
+        self.draw_point(self._end, 'o', color='red')
+        t = zip(*self.obstacle)
+        plt.plot(t[0], t[1], 's', color='black')
+        for r in rrt.items():
+            if r[1][2]:
+                x = r[1][2][0]
+                y = r[1][2][1]
+                plt.plot(x, y, color='lightblue')
         if self._update_i % 20 == 1:
             self.update()
 
