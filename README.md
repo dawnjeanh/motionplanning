@@ -1,6 +1,22 @@
 # motionplanning
 Motion planning algorithm implementation in Python and C++
 
+# Table of Contents
+    * [C++ useage](#c++-useage)
+    * [a* algorithm](#a*-algorithm)
+    * [theta* algorithm](#theta*-algorithm)
+    * [Probabilistic Roadmaps algorithm](#probabilistic-roadmaps-algorithm)
+    * [Rapidly-exploring random tree algorithm](#rapidly-exploring-random-tree-algorithm)
+        * [rrt](#rrt)
+        * [rrt_connect](#rrt_connect)
+        * [rrt*](#rrt*)
+        * [rrt*-smart](#rrt*-smart)
+    * [Dubins path algorithm](#dubins-path-algorithm)
+        * [shortest dubins path with different end point](#shortest-dubins-path-with-different-end-point)
+        * [6 types of dubins path with same end point](#6-types-of-dubins-path-with-same-end-point)
+        * [RRT-Dubins](#rrt-dubins)
+        * [RRT*-Dubins](#rrt*-dubins)
+
 ## C++ useage
 
 C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://www.ros.org/).
@@ -11,29 +27,23 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 4. launch script, e.g. roslaunch cpp_rviz a_star.launch
 
 ## a* algorithm
-![a_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/a_star.gif)
 ![a_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/a_star_rviz.gif)
 
 ## theta* algorithm
-![theta_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/theta_star.gif)
 ![theta_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/theta_star_rviz.gif)
 
 ## Probabilistic Roadmaps algorithm
-![prm](https://github.com/dawnjeanh/image_resource/raw/master/gif/prm.gif)
 ![prm](https://github.com/dawnjeanh/image_resource/raw/master/gif/prm_rviz.gif)
 
 ## Rapidly-exploring random tree algorithm
 
 ### rrt
-![rrt](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt.gif)
 ![rrt](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_rviz.gif)
 
 ### rrt_connect
-![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect.gif)
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_connect_rviz.gif)
 
 ### rrt*
-![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star.gif)
 ![rrt_connect](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star_rviz.gif)
 
 ### rrt*-smart
