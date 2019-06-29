@@ -50,19 +50,21 @@ class DubinsPath(object):
         lex = math.cos(self._s[2]) * ex + math.sin(self._s[2]) * ey
         ley = - math.sin(self._s[2]) * ex + math.cos(self._s[2]) * ey
         leyaw = self._e[2] - self._s[2]
+        lex = lex / self._r
+        ley = ley / self._r
         return [lex, ley, leyaw]
 
     def mod2pi(self, theta):
         return theta - 2.0 * math.pi * math.floor(theta / 2.0 / math.pi)
 
     def calc_lsl_from_origin(self, e):
-        x_ = e[0] - math.sin(e[2]) * self._r
-        y_ = e[1] - 1 * self._r + math.cos(e[2]) * self._r
+        x_ = e[0] - math.sin(e[2])
+        y_ = e[1] - 1 + math.cos(e[2])
 
         u = math.sqrt((x_) ** 2 + (y_) ** 2)
         t = self.mod2pi(math.atan2(y_ , x_))
         v = self.mod2pi(e[2] - t)
-        return [['l', t], ['s', u], ['l', v]]
+        return [['l', t], ['s', u * self._r], ['l', v]]
 
     def calc_rsr_from_origin(self, e):
         e_ = deepcopy(e)
@@ -75,17 +77,17 @@ class DubinsPath(object):
         return path
 
     def calc_lsr_from_origin(self, e):
-        x_ = e[0] + math.sin(e[2]) * self._r
-        y_ = e[1] - 1 * self._r - math.cos(e[2]) * self._r
+        x_ = e[0] + math.sin(e[2])
+        y_ = e[1] - 1 - math.cos(e[2])
         u1_square = x_ ** 2 + y_ ** 2
-        if u1_square < 4 * self._r * self._r:
+        if u1_square < 4:
             return []
         t1 = self.mod2pi(math.atan2(y_, x_))
-        u = math.sqrt(u1_square - 4 * self._r * self._r)
-        theta = self.mod2pi(math.atan(2 * self._r / u))
+        u = math.sqrt(u1_square - 4)
+        theta = self.mod2pi(math.atan(2 / u))
         t = self.mod2pi(t1 + theta)
         v = self.mod2pi(t - e[2])
-        return [['l', t], ['s', u], ['r', v]]
+        return [['l', t], ['s', u * self._r], ['r', v]]
 
     def calc_rsl_from_origin(self, e):
         e_ = deepcopy(e)
@@ -101,13 +103,13 @@ class DubinsPath(object):
             return []
 
     def calc_lrl_from_origin(self, e):
-        x_ = e[0] - math.sin(e[2]) * self._r
-        y_ = e[1] - 1 * self._r + math.cos(e[2]) * self._r
+        x_ = e[0] - math.sin(e[2])
+        y_ = e[1] - 1 + math.cos(e[2])
         u1 = math.sqrt(x_ ** 2 + y_ ** 2)
-        if u1 > 4 * self._r:
+        if u1 > 4:
             return []
         t1 = math.atan2(y_, x_)
-        theta = math.acos(u1 / (4 * self._r))
+        theta = math.acos(u1 / 4)
         t = self.mod2pi(math.pi / 2 + t1 + theta)
         u = self.mod2pi(math.pi + 2 * theta)
         v = self.mod2pi(math.pi / 2 - t1 + theta + e[2])

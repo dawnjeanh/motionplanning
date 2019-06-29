@@ -16,6 +16,9 @@ Motion planning algorithm implementation in Python and C++
       * [6 types of dubins path with same end point](#6-types-of-dubins-path-with-same-end-point)
       * [RRT-Dubins](#rrt-dubins)
       * [RRT*-Dubins](#rrt-dubins-1)
+   * [Reeds Shepp path algorithm](#reeds-shepp-path-algorithm)
+      * [shortest Reeds Shepp path with different end point](#shortest-reeds-shepp-path-with-different-end-point)
+      * [different types of Reeds Shepp path with same end point](#different-types-of-reeds-shepp-path-with-same-end-point)
 
 # C++ useage
 
@@ -59,3 +62,10 @@ C++11 standard, use Rviz to show algorithm, so you should install [ROS](https://
 ![rrt_dubins](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_dubins.gif)
 ## RRT*-Dubins
 ![rrt_star_dubins](https://github.com/dawnjeanh/image_resource/raw/master/gif/rrt_star_dubins.gif)
+
+# Reeds Shepp path algorithm
+The difference of Reeds Shepp path and Dubins path is that Reeds Sheep path have both forwards and backwards. So Dubins path is a subset of Reeds Shepp path.
+## shortest Reeds Shepp path with different end point
+![](https://github.com/dawnjeanh/image_resource/raw/master/png/reeds_shepp_2.png)
+## different types of Reeds Shepp path with same end point
+![](https://github.com/dawnjeanh/image_resource/raw/master/png/reeds_shepp_1.png)
