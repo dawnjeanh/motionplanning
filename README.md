@@ -19,6 +19,7 @@ Motion planning algorithm implementation in Python and C++
    * [Reeds Shepp path algorithm](#reeds-shepp-path-algorithm)
       * [shortest Reeds Shepp path with different end point](#shortest-reeds-shepp-path-with-different-end-point)
       * [different types of Reeds Shepp path with same end point](#different-types-of-reeds-shepp-path-with-same-end-point)
+      * [Hybrid A* algorithm](#hybrid-a-algorithm)
 
 # C++ useage
 
@@ -71,4 +72,5 @@ The difference of Reeds Shepp path and Dubins path is that Reeds Sheep path have
 ![](https://github.com/dawnjeanh/image_resource/raw/master/png/reeds_shepp_1.png)
 ## Hybrid A* algorithm
 based A* algorithm and Reeds Shepp path algorithm
+
 ![hybrid_a_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/hybrid_a_star.gif)
