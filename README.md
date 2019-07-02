@@ -69,3 +69,6 @@ The difference of Reeds Shepp path and Dubins path is that Reeds Sheep path have
 ![](https://github.com/dawnjeanh/image_resource/raw/master/png/reeds_shepp_2.png)
 ## different types of Reeds Shepp path with same end point
 ![](https://github.com/dawnjeanh/image_resource/raw/master/png/reeds_shepp_1.png)
+## Hybrid A* algorithm
+based A* algorithm and Reeds Shepp path algorithm
+![hybrid_a_star](https://github.com/dawnjeanh/image_resource/raw/master/gif/hybrid_a_star.gif)

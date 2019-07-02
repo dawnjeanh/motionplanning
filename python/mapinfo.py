@@ -22,6 +22,7 @@ class MapInfo(object):
         self._path = []
         self._roadmap = dict()
         self._update_i = 0
+        plt.figure()
 
     @property
     def start(self):
@@ -31,7 +32,6 @@ class MapInfo(object):
     def start(self, s):
         self._start = s
         self.draw_point(self._start, 'o', color='green')
-        self.update()
 
     def draw_point(self, p, shape, color):
         plt.plot(p[0], p[1], shape, color=color)
@@ -47,7 +47,6 @@ class MapInfo(object):
     def end(self, e):
         self._end = e
         self.draw_point(self._end, 'o', color='red')
-        self.update()
 
     @property
     def obstacle(self):
@@ -59,7 +58,6 @@ class MapInfo(object):
         self._okdtree = cKDTree(o)
         t = zip(*self.obstacle)
         plt.plot(t[0], t[1], 's', color='black')
-        self.update()
 
     def is_collision(self, **kwargs):
         if 'path' in kwargs:
@@ -68,6 +66,19 @@ class MapInfo(object):
                 d, _ = self._okdtree.query(p)
                 if d <= 1.0 or p[0] < 0 or p[0] > self.width or p[1] < 0 or p[1] > self.height:
                     return True
+            return False
+        if 'car_outline' in kwargs:
+            px, py = kwargs['car_outline']
+            for p in zip(px, py):
+                d, _ = self._okdtree.query(p)
+                if d <= 1.0 or p[0] < 0 or p[0] > self.width or p[1] < 0 or p[1] > self.height:
+                    return True
+            return False
+        if 'point' in kwargs:
+            p = kwargs['point']
+            d, _ = self._okdtree.query(p)
+            if d <= 1.0 or p[0] < 0 or p[0] > self.width or p[1] < 0 or p[1] > self.height:
+                return True
             return False
 
     @property
@@ -167,12 +178,10 @@ class MapInfo(object):
         self._path = copy.deepcopy(o)
         t = zip(*self.path)
         plt.plot(t[0], t[1], color='purple')
-        self.update()
 
     def show(self):
-        plt.figure()
+        plt.axis('equal')
         plt.plot(self._border_x, self._border_y, 'black')
-        plt.pause(0.001)
 
     def update(self):
         plt.pause(0.001)

@@ -447,44 +447,56 @@ class ReedsSheppPath(object):
             return (x, y)
         r_x = []
         r_y = []
+        r_yaw = []
         ps_x = []
         ps_y = []
+        ps_yaw = []
         start = s
         yaw = s[2]
         for p in path:
             if p[0] == 's':
-                for l in arange(0, p[1], 0.5 if p[1] > 0 else -0.5):
+                for l in arange(0, p[1], 0.1 if p[1] > 0 else -0.1):
                     ps_x.append(start[0] + cos(yaw) * l)
                     ps_y.append(start[1] + sin(yaw) * l)
+                    ps_yaw.append(yaw)
                 ps_x.append(start[0] + cos(yaw) * p[1])
                 ps_y.append(start[1] + sin(yaw) * p[1])
+                ps_yaw.append(yaw)
                 if section:
                     r_x.append(ps_x)
                     r_y.append(ps_y)
+                    r_yaw.append(ps_yaw)
                 else:
                     r_x += ps_x
                     r_y += ps_y
+                    r_yaw += ps_yaw
             else:
                 center = calc_TurnCenter(start, p[0], r)
                 ang_start = atan2(start[1] - center[1], start[0] - center[0])
                 ang_end = ang_start + p[1] if p[0] == 'l' else ang_start - p[1]
-                step = 0.1 / r
-                for ang in arange(ang_start, ang_end, step if ang_start < ang_end else -step):
+                step = (0.1 / r) if ang_start < ang_end else (-0.1 / r)
+                for ang in arange(ang_start, ang_end, step):
                     ps_x.append(center[0] + cos(ang) * r)
                     ps_y.append(center[1] + sin(ang) * r)
+                    ps_yaw.append(yaw)
+                    yaw += step
                 ps_x.append(center[0] + cos(ang_end) * r)
                 ps_y.append(center[1] + sin(ang_end) * r)
+                yaw = start[2] + p[1] if p[0] == 'l' else start[2] - p[1]
+                ps_yaw.append(yaw)
                 if section:
                     r_x.append(ps_x)
                     r_y.append(ps_y)
+                    r_yaw.append(ps_yaw)
                 else:
                     r_x += ps_x
                     r_y += ps_y
-                yaw = start[2] + p[1] if p[0] == 'l' else start[2] - p[1]
+                    r_yaw += ps_yaw
             start = (ps_x[-1], ps_y[-1], yaw)
             ps_x = []
             ps_y = []
-        return r_x, r_y
+            ps_yaw = []
+        return r_x, r_y, r_yaw
 
 def test1():
     for i in range(0, 360, 30):
@@ -503,7 +515,7 @@ def test1():
             plt.title(title)
             draw_point(start)
             draw_point(end)
-            xs, ys = ReedsSheppPath.gen_path(start, path, r)
+            xs, ys, _ = ReedsSheppPath.gen_path(start, path, r)
             for i in range(len(xs)):
                 plt.plot(xs[i], ys[i])
             plt.axis("equal")
@@ -526,12 +538,12 @@ def test2():
         plt.title(title)
         draw_point(start)
         draw_point(end)
-        xs, ys = ReedsSheppPath.gen_path(start, path, r)
+        xs, ys, _ = ReedsSheppPath.gen_path(start, path, r)
         for i in range(len(xs)):
             plt.plot(xs[i], ys[i])
         plt.axis("equal")
     plt.show()
 
 if __name__ == "__main__":
-    # test1()
-    test2()
+    test1()
+    # test2()
